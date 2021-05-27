@@ -1,17 +1,28 @@
 
 <template>
   <div class="pokedex-screen">
-    <h2>Hello Ash!</h2>
-    <!-- <Stat/> -->
+    <Stat/>
+    <!-- <h2>{{output}}</h2> -->
+
   </div>
 </template>
 
 <script>
-// import Stat from './Stat.vue'
+import Stat from './Stat.vue'
 export default {
   name: 'PokedexScreen',
+  props: ['pokemonData'],
   components: {
-    // Stat
+    Stat
+  },
+  data () {
+    return {
+      output: ''
+    }
+  },
+  mounted () {
+    this.output = this.pokemonData
   }
+
 }
 </script>

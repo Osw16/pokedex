@@ -1,33 +1,11 @@
 <template>
   <div class="pokedex">
-    <div class="pokedex-left">
-      <div class="pokedex-left-top">
-        <div class="light is-sky is-big in-animated" />
-        <div class="light is-red" />
-        <div class="light is-yellow" />
-        <div class="light is-green" />
-      </div>
-      <div class="pokedex-screen-container">
-        <pokedex-screen />
-        <img
-          v-if="error"
-          src="../assets/error.gif"
-          alt="Hubo un error buscando tu pokemon"
-          class="pokedex-no-screen"
-        />
-      </div>
-      <div class="pokedex-left-bottom">
-        <div class="pokedex-left-bottom-lights">
-          <div class="light is-blue is-medium" />
-          <div class="light is-green is-large" />
-          <div class="light is-orange is-large" />
-        </div>
-        <!-- <pokedex-form v-on:submit="handleSubmit($event)" /> -->
-        <pokedex-form  />
-      </div>
-    </div>
-    <!-- <div class="pokedex-right-front" /> -->
-    <!-- <div class="pokedex-right-back" /> -->
+    <h2>pokedex</h2>
+    <pokedex-screen :pokemonData="loadData"/>
+    <pokedex-form/>
+    <input type="text" class="form-control" v-model="pokemon" />
+    <button @click="getPokemon">Buscar</button>
+    {{pokeOutput}}
   </div>
 </template>
 
@@ -47,12 +25,15 @@ export default {
       error: false,
       loading: true,
       pokemon: null,
+      loadData: [],
+      pokeOutput: [],
       pokemonId: Math.floor(Math.random() * 806 + 1).toString()
     }
   },
 
   created () {
-    this.getPokemon()
+    // this.getPokemon()
+    // console.log('created pokedex')
   },
 
   methods: {
@@ -60,11 +41,14 @@ export default {
     // cuando la API nos da una respuesta, el estado se actualiza
     // dependiendo de si todo fue un éxito o un fracaso
     getPokemon () {
-      fetch(`https://pokeapi.co/api/v2/pokemon/${this.pokemonId}`)
+      fetch(`https://pokeapi.co/api/v2/pokemon/${this.pokemon}`)
+      // fetch('https://pokeapi.co/api/v2/pokemon/charmander')
         .then((res) => res.json())
         .then((data) => {
-          this.pokemon = data
+          this.loadData = [data].map(d => ({ name: d.name, exp: d.base_experience }))
+          this.pokeOutput = data.name
           this.loading = false
+          console.log(this.loadData)
         }
         )
     }
