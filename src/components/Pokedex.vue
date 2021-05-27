@@ -2,37 +2,35 @@
   <div class="pokedex">
     <h2>pokedex</h2>
     <pokedex-screen :pokemonData="loadData"/>
-    <pokedex-form/>
+
     <input type="text" class="form-control" v-model="pokemon" />
     <button @click="getPokemon">Buscar</button>
-    {{pokeOutput}}
+    <img class="card-img-top rounded mx-auto mt-2" :src="imageUrl"/>
   </div>
 </template>
 
 <script>
 import PokedexScreen from './PokedexScreen.vue'
-import PokedexForm from './PokedexForm.vue'
 
 export default {
   name: 'Pokedex',
   components: {
-    PokedexScreen,
-    PokedexForm
+    PokedexScreen
   },
 
   data () {
     return {
+      imageUrl: null,
       error: false,
       loading: true,
-      pokemon: null,
+      pokemon: 150,
       loadData: [],
-      pokeOutput: [],
       pokemonId: Math.floor(Math.random() * 806 + 1).toString()
     }
   },
 
   created () {
-    // this.getPokemon()
+    this.getPokemon()
     // console.log('created pokedex')
   },
 
@@ -41,14 +39,17 @@ export default {
     // cuando la API nos da una respuesta, el estado se actualiza
     // dependiendo de si todo fue un éxito o un fracaso
     getPokemon () {
+      const imgPokemon = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${this.pokemon}.png?raw=true`
+      this.imageUrl = imgPokemon
       fetch(`https://pokeapi.co/api/v2/pokemon/${this.pokemon}`)
       // fetch('https://pokeapi.co/api/v2/pokemon/charmander')
         .then((res) => res.json())
         .then((data) => {
-          this.loadData = [data].map(d => ({ name: d.name, exp: d.base_experience }))
-          this.pokeOutput = data.name
+          const response = [data].map(d => ({ name: d.name, exp: d.base_experience, type: d.types[0].type.name }))
+          this.loadData = response[0]
           this.loading = false
-          console.log(this.loadData)
+          // console.log(this.loadData)
+          console.log(state.pokemon)
         }
         )
     }

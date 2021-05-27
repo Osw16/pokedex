@@ -28,7 +28,6 @@ export default {
 
   methods: {
     getUrl () {
-      // const imgPokemon = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${this.pokeIndex}.png?raw=true`
       const imgPokemon = 'https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/1.png?raw=true'
       this.imageUrl = imgPokemon
       // console.log('imgPokemon', imgPokemon)

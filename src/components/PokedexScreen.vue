@@ -1,27 +1,32 @@
 
 <template>
   <div class="pokedex-screen">
-    <Stat/>
+    <!-- <Stat/> -->
     <!-- <h2>{{output}}</h2> -->
-
+    <h2>{{pokemonData.type}}</h2>
   </div>
 </template>
 
 <script>
-import Stat from './Stat.vue'
+// import Stat from './Stat.vue'
 export default {
   name: 'PokedexScreen',
   props: ['pokemonData'],
   components: {
-    Stat
+    // Stat
   },
   data () {
     return {
       output: ''
     }
   },
-  mounted () {
-    this.output = this.pokemonData
+  created () {
+    return this.getData()
+  },
+  methods: {
+    getData () {
+      console.log('mew', this.pokemonData)
+    }
   }
 
 }
